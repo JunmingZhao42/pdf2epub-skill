@@ -1,0 +1,29 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # Pinned: whether some "Avoid" entries convert depends on pandoc's version.
+      PANDOC_VERSION: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc and zsh
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh unzip
+          curl -fsSL -o "$RUNNER_TEMP/pandoc.deb" \
+            "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i "$RUNNER_TEMP/pandoc.deb"
+          pandoc --version | head -1
+
+      - name: Check the symbol glossary
+        run: tests/check_symbols.sh
+
+      - name: Build the sample EPUB
+        run: tests/build_sample.sh

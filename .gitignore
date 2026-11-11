@@ -1,0 +1,15 @@
+# Built books
+*.epub
+
+# Scratch and work folders
+scratch/
+tmp/
+out/
+inbox-*/
+
+# Papers: never commit a real paper
+*.pdf
+
+# OS and editor files
+.DS_Store
+*.swp
