@@ -15,31 +15,20 @@ On macOS, zsh and perl are included; install pandoc and Poppler with Homebrew:
 brew install pandoc poppler
 ```
 
-Clone the repository:
+Install from the **Codex marketplace**:
 
 ```bash
-git clone https://github.com/JunmingZhao42/pdf2epub-skill.git
-cd pdf2epub-skill
+codex plugin marketplace add JunmingZhao42/pdf2epub-skill --ref main
+codex plugin add pdf2epub@pdf2epub
 ```
 
-Then install the skill for your agent. Run the relevant commands from this folder.
+Alternatively, after adding the marketplace, open the Plugins directory in the
+desktop app, select **pdf2epub**, and install **PDF to EPUB**. Start a new chat
+after installation. The plugin uses your local tools; it does not install pandoc
+or Poppler for you.
 
-**Claude Code**
-
-```bash
-mkdir -p ~/.claude/skills
-ln -s "$PWD/skills/pdf2epub" ~/.claude/skills/pdf2epub
-```
-
-**Codex**
-
-```bash
-mkdir -p ~/.agents/skills
-ln -s "$PWD/skills/pdf2epub" ~/.agents/skills/pdf2epub
-```
-
-These links follow updates to the checkout. Use `cp -R` instead of `ln -s` for
-an independent copy. Start a new agent session if the skill does not appear.
+For **Claude Code**, or to use a local checkout in Codex, follow the
+[manual installation steps](docs/usage.md#manual-installation).
 
 ## Use it
 

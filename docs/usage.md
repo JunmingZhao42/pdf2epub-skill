@@ -5,6 +5,62 @@ Codex to convert a paper. Initial support is for local use on macOS with an
 image-capable agent. Codex renders PDF pages with Poppler and views the images;
 Claude Code can also use its native PDF reader.
 
+## Marketplace installation (Codex)
+
+With a Codex version that supports `codex plugin`:
+
+```bash
+codex plugin marketplace add JunmingZhao42/pdf2epub-skill --ref main
+codex plugin add pdf2epub@pdf2epub
+```
+
+The first command registers this GitHub repository as a marketplace; the second
+installs its plugin. You can also install **PDF to EPUB** from the **pdf2epub**
+source in the desktop app's Plugins directory after adding the marketplace.
+Start a new chat after installation. Install the local dependencies from the
+README before converting a paper.
+
+This is a repository marketplace, separate from the public OpenAI Plugin
+Directory. It packages the same skill used by manual installations, without an
+MCP server or account connection. The plugin requires local execution.
+
+To refresh the GitHub catalog and its source checkout:
+
+```bash
+codex plugin marketplace upgrade pdf2epub
+```
+
+Then reinstall the plugin using the install command above to refresh its cached
+copy, and start a new chat. If you previously installed the skill manually, use
+one installation method to avoid duplicate skill entries.
+
+## Manual installation
+
+Clone the repository and run the installation commands from its root:
+
+```bash
+git clone https://github.com/JunmingZhao42/pdf2epub-skill.git
+cd pdf2epub-skill
+```
+
+For Claude Code:
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s "$PWD/skills/pdf2epub" ~/.claude/skills/pdf2epub
+```
+
+For Codex:
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s "$PWD/skills/pdf2epub" ~/.agents/skills/pdf2epub
+```
+
+The links follow updates to the checkout. Use `cp -R` instead of `ln -s` for an
+independent copy. Start a new session if the skill does not appear. Marketplace
+installation in these instructions is for Codex; Claude Code uses the manual route.
+
 ## Finding a paper
 
 Provide a local PDF path, a PDF link, a DOI, or an arXiv ID. For a DOI, the agent

@@ -63,15 +63,17 @@ for the sample only: transcriptions follow `symbols.md`.
 
 ## Running the tests
 
-You need pandoc 3 or later, `zsh` (for `build_epub.sh`), `perl` and `unzip`.
+You need pandoc 3 or later, `zsh` (for `build_epub.sh`), `perl`, `unzip`, and
+Python 3 (for the marketplace payload check).
 
 ```bash
 tests/check_symbols.sh   # every glossary entry converts; every "Avoid" entry fails or differs
 tests/build_sample.sh    # builds examples/sample.md and checks the EPUB
 tests/check_builder.sh   # strict failures, legacy warnings, images, and paths with spaces
+tests/check_marketplace.sh # catalog resolution and building from a copied plugin payload
 ```
 
-CI runs all three on ubuntu-latest with a pinned pandoc version (see
+CI runs all four on ubuntu-latest with a pinned pandoc version (see
 `.github/workflows/test.yml`). Whether some "Avoid" entries convert depends on the
 pandoc version, so if a test passes locally but fails in CI, compare
 `pandoc --version`.
@@ -81,7 +83,7 @@ pandoc version, so if a test passes locally but fails in CI, compare
 `SKILL.md` and `build_epub.sh` define the workflow. Keep instructions usable in both
 Claude Code and Codex, resolve bundled files beside the loaded skill, and default
 conversion output to the current workspace. Keep optional source paths generic
-(`~/Downloads`, `~/Zotero`) and run all three tests after changing the builder.
+(`~/Downloads`, `~/Zotero`) and run all four tests after changing the builder.
 
 For changes to PDF reading, also try a temporary synthetic PDF containing prose,
 numbered mathematics, a footnote, and a figure. Render it with Poppler, view the
@@ -91,3 +93,25 @@ MathML and embedded figure. Check the SVG for vector paths and embedded raster
 content; inspect a rendered preview against the source. Keep this source comparison
 separate from builder checks and any inspection in Books. Do not commit generated
 PDFs or EPUBs.
+
+## Marketplace packaging
+
+The root `plugin.json` packages the existing `skills/` directory. The catalog at
+`.agents/plugins/marketplace.json` resolves its `./` source from the repository
+root. Keep the plugin name aligned with the catalog entry and update its semantic
+version when releasing changes. Local dependencies remain prerequisites on the
+user's machine; the plugin does not install them.
+
+Run `tests/check_marketplace.sh` after changing the packaging. To check discovery
+with the Codex CLI without changing your saved marketplace configuration, run
+from the repository root:
+
+```bash
+codex -c 'marketplaces.pdf2epub.source_type="local"' \
+  -c "marketplaces.pdf2epub.source=\"$PWD\"" \
+  plugin list --marketplace pdf2epub --available --json
+```
+
+The available list should contain `pdf2epub@pdf2epub` and the manifest version.
+See the [official packaging guide](https://developers.openai.com/plugins/build/plugins)
+for the manifest and marketplace formats.

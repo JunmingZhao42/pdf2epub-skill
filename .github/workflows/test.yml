@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pandoc and zsh
+      - name: Install test dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y zsh unzip
+          sudo apt-get install -y zsh unzip python3
           curl -fsSL -o "$RUNNER_TEMP/pandoc.deb" \
             "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
           sudo dpkg -i "$RUNNER_TEMP/pandoc.deb"
@@ -30,3 +30,6 @@ jobs:
 
       - name: Check strict and legacy build behaviour
         run: tests/check_builder.sh
+
+      - name: Check the marketplace payload
+        run: tests/check_marketplace.sh

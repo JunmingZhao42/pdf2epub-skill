@@ -1,0 +1,25 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "pdf2epub",
+  "version": "2.1.0",
+  "description": "Convert PDF papers to EPUB with MathML formulas and vector figures by faithful transcription.",
+  "author": {
+    "name": "Junming Zhao",
+    "url": "https://github.com/JunmingZhao42"
+  },
+  "homepage": "https://github.com/JunmingZhao42/pdf2epub-skill",
+  "repository": "https://github.com/JunmingZhao42/pdf2epub-skill",
+  "license": "MIT",
+  "keywords": ["pdf", "epub", "mathematics", "papers"],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "PDF to EPUB",
+        "shortDescription": "Convert PDF papers to EPUB",
+        "developerName": "Junming Zhao",
+        "category": "Productivity"
+      }
+    }
+  }
+}
