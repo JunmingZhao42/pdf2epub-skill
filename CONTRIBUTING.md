@@ -50,7 +50,16 @@ convert, or render differently from its partner. An entry without a backticked
 partner must fail to convert.
 
 Only the LaTeX column of recommended rows is tested, so backticks in the Notes column
-are free text. A literal `|` inside a cell must be written `\|`.
+are free text. A literal `|` inside a cell must be written `\|`, and GitHub then
+displays it as `|`, so prefer a LaTeX form without a bar (e.g. `\parallel`, not `\|`).
+
+## The sample paper
+
+`examples/sample.md` is meant to read well both as pandoc input and in GitHub's
+preview. GitHub strips Markdown backslash escapes inside maths before rendering it,
+so the sample avoids `\,` `\{` `\}` `\#` `\|` (it uses `\ `, `\lbrace`, `\rbrace`,
+`\parallel`) and macros GitHub's MathJax lacks, such as `\bigsqcap`. These rules are
+for the sample only: transcriptions follow `symbols.md`.
 
 ## Running the tests
 

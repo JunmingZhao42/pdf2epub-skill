@@ -21,7 +21,7 @@ that is missing here or was hard to get right (see "Adding a symbol" in SKILL.md
 |---|---|---|
 | ∗ | `\ast` | Separating or concurrent composition. Use `\ast`, not a plain `*`, so it never clashes with Markdown emphasis. |
 | ; | `;` | Sequential composition. Write `p; q`. In displays, `p \,; q` mirrors papers that space it. |
-| ∥ | `\|` | Parallel composition of commands, e.g. `C_1 \| C_2`. |
+| ∥ | `\parallel` | Parallel composition of commands, e.g. `C_1 \parallel C_2`. `\|` gives the same glyph, but in a Markdown table it displays as a single bar on GitHub. |
 | • | `\bullet` | Partial monoid operation on states. |
 | # | `\#` | Compatibility or disjointness, e.g. `\sigma_0 \# \sigma_1`. |
 | (−) | `(-)` | Placeholder argument, e.g. `(-) \ast \mathsf{skip}`. |

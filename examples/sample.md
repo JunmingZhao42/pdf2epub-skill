@@ -13,15 +13,15 @@ its results are new, and some are deliberately trivial.
 
 # 1 Introduction
 
-We write $p; q$ for sequential composition, $C_1 \| C_2$ for parallel composition
+We write $p; q$ for sequential composition, $C_1 \parallel C_2$ for parallel composition
 and $p \ast q$ for separating composition. The command $\mathsf{skip}$ does
 nothing, and $\mathtt{abort}$ is the worst command, written $\bot$. The best
 command, $\top$, is miraculous.[^1]
 
 Commands are ordered by refinement: $p \sqsubseteq q$ means that $q$ is at least as
 good as $p$, and $q \sqsupseteq p$ says the same. Joins and meets are written
-$p \sqcup q$ and $p \sqcap q$, with big versions $\bigsqcup_{i \in \mathbb{N}} p_i$
-and $\bigsqcap_{i \in \mathbb{N}} p_i$.
+$p \sqcup q$ and $p \sqcap q$, and the join of a family is
+$\bigsqcup_{i \in \mathbb{N}} p_i$.
 
 [^1]: The terms "worst" and "best" follow the refinement order, not any notion of
     usefulness.
@@ -30,27 +30,27 @@ and $\bigsqcap_{i \in \mathbb{N}} p_i$.
 
 A state is a finite partial function $h : \mathbb{N} \rightharpoonup_f \mathbb{N}$.
 The empty state is $\mathit{emp}$, with $\mathit{dom}(\mathit{emp}) = \emptyset$, and
-$h[n \mapsto l]$ updates $h$ at $n$. Two states are compatible, $h_0 \# h_1$, when
+$h[n \mapsto l]$ updates $h$ at $n$. Two states are compatible, $h_0 \perp h_1$, when
 their domains are disjoint; then $h_0 \bullet h_1$ is their union.
 
 **Definition 2.1.** For a set $S$ of states, let
-$\mathit{Traces}(S) = \bigcup \{ \mathit{dom}(h) \mid h \in S \}$. We say $S$ is
+$\mathit{Traces}(S) = \bigcup \lbrace \mathit{dom}(h) \mid h \in S \rbrace$. We say $S$ is
 *closed* if $S \subseteq T$ and $T \supseteq S$ imply nothing new, and *open*
 if $S \nsubseteq \mathit{Traces}(S)$.
 
 ## 2.1 Fixed points
 
 The loop $\mathsf{while}\ b\ \mathsf{do}\ c$ is the least fixed point
-$\mu X.\, (b; c; X) \sqcup \neg b$. Its unfolding gives the equation
+$\mu X.\ (b; c; X) \sqcup \neg b$. Its unfolding gives the equation
 
 $$
-\mu X.\, F(X) = F(\mu X.\, F(X)) \tag{1}
+\mu X.\ F(X) = F(\mu X.\ F(X)) \tag{1}
 $$
 
 and every finite approximation lies below it.
 
 **Lemma 2.2.** If $F$ is monotone, then (1) holds and
-$\mu X.\, F(X) \sqsubseteq Y$ whenever $F(Y) \sqsubseteq Y$.
+$\mu X.\ F(X) \sqsubseteq Y$ whenever $F(Y) \sqsubseteq Y$.
 
 *Proof.* This is the Knaster–Tarski theorem applied to the lattice of commands. ∎
 
@@ -83,18 +83,18 @@ $$
 
 # 4 Triples
 
-A Hoare triple $\{p\}\, c\, \{q\}$ holds if $p; c \sqsubseteq q$, and a Plotkin
+A Hoare triple $\lbrace p \rbrace\ c\ \lbrace q \rbrace$ holds if $p; c \sqsubseteq q$, and a Plotkin
 triple $p \to_c q$ holds if $q \sqsupseteq p; c$. We write
 $\langle\langle X \rangle\rangle$ for the Dijkstra triple of $X$.
 
-**Theorem 4.1.** $\{p\}\, c\, \{q\} \Leftrightarrow p \to_c q$, and
-$\vdash \{p\}\, c\, \{q\} \Rightarrow \{p \ast r\}\, c\, \{q \ast r\}$.
+**Theorem 4.1.** $\lbrace p \rbrace\ c\ \lbrace q \rbrace \Leftrightarrow p \to_c q$, and
+$\vdash \lbrace p \rbrace\ c\ \lbrace q \rbrace \Rightarrow \lbrace p \ast r \rbrace\ c\ \lbrace q \ast r \rbrace$.
 
 *Proof.* Both sides unfold to the same inequality. The frame rule is
 
 $$
-\frac{\{p\}\, c\, \{q\} \qquad \mathit{dom}(r) \cap \mathit{dom}(c) = \emptyset}
-     {\{p \ast r\}\, c\, \{q \ast r\}}
+\frac{\lbrace p \rbrace\ c\ \lbrace q \rbrace \qquad \mathit{dom}(r) \cap \mathit{dom}(c) = \emptyset}
+     {\lbrace p \ast r \rbrace\ c\ \lbrace q \ast r \rbrace}
 $$
 
 and it follows from the exchange law (2), since
