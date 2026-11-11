@@ -44,7 +44,7 @@ The loop $\mathsf{while}\ b\ \mathsf{do}\ c$ is the least fixed point
 $\mu X.\ (b; c; X) \sqcup \neg b$. Its unfolding gives the equation
 
 $$
-\mu X.\ F(X) = F(\mu X.\ F(X)) \tag{1}
+{\mu X.\ F(X) = F(\mu X.\ F(X))} \tag{1}
 $$
 
 and every finite approximation lies below it.
