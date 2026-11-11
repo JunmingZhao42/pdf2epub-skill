@@ -68,15 +68,26 @@ You need pandoc 3 or later, `zsh` (for `build_epub.sh`), `perl` and `unzip`.
 ```bash
 tests/check_symbols.sh   # every glossary entry converts; every "Avoid" entry fails or differs
 tests/build_sample.sh    # builds examples/sample.md and checks the EPUB
+tests/check_builder.sh   # strict failures, legacy warnings, images, and paths with spaces
 ```
 
-CI runs both on ubuntu-latest with a pinned pandoc version (see
+CI runs all three on ubuntu-latest with a pinned pandoc version (see
 `.github/workflows/test.yml`). Whether some "Avoid" entries convert depends on the
 pandoc version, so if a test passes locally but fails in CI, compare
 `pandoc --version`.
 
 ## Changing the skill
 
-`SKILL.md` and `build_epub.sh` define the workflow. Keep changes general, keep paths
-generic (`~/Downloads`, `~/Zotero`), and make sure `tests/build_sample.sh` still
-passes.
+`SKILL.md` and `build_epub.sh` define the workflow. Keep instructions usable in both
+Claude Code and Codex, resolve bundled files beside the loaded skill, and default
+conversion output to the current workspace. Keep optional source paths generic
+(`~/Downloads`, `~/Zotero`) and run all three tests after changing the builder.
+
+For changes to PDF reading, also try a temporary synthetic PDF containing prose,
+numbered mathematics, a footnote, and a figure. Render it with Poppler, view the
+pages in Codex, transcribe them, extract the figure as SVG, and build with
+`--strict`. Compare the transcription against the page images and check the EPUB's
+MathML and embedded figure. Check the SVG for vector paths and embedded raster
+content; inspect a rendered preview against the source. Keep this source comparison
+separate from builder checks and any inspection in Books. Do not commit generated
+PDFs or EPUBs.

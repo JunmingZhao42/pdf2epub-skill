@@ -27,3 +27,6 @@ jobs:
 
       - name: Build the sample EPUB
         run: tests/build_sample.sh
+
+      - name: Check strict and legacy build behaviour
+        run: tests/check_builder.sh
